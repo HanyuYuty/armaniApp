@@ -5,6 +5,11 @@ import store from './store'
 import "./assets/icons/iconfont/iconfont.css"
 import "./assets/icons/heart/iconfont.css"
 import "./assets/icons/heart/iconfont.js"
+import VueAwesomeSwiper from 'vue-awesome-swiper'
+// // import style (>= Swiper 6.x)
+import 'swiper/swiper-bundle.css'
+import Commoncategory from "./views/category/Commoncategory"
+
 
 import {
   Tabbar,
@@ -22,22 +27,18 @@ import {
   Rate,
   Image as VanImage,
   Sidebar,
-  SidebarItem
+  SidebarItem,
+  Col, Row,
+  Cell, CellGroup ,
+  List
 } from 'vant';
-// import { Image as VanImage } from 'vant';
 
 
-
-import VueAwesomeSwiper from 'vue-awesome-swiper'
-
-
-// // import style (>= Swiper 6.x)
-import 'swiper/swiper-bundle.css'
-
-
-
-
-
+Vue.use(List);
+Vue.use(Cell);
+Vue.use(CellGroup);
+Vue.use(Col);
+Vue.use(Row);
 Vue.use(Rate);
 Vue.use(Button);
 Vue.use(VanImage);
@@ -74,6 +75,7 @@ Vue.prototype.$request = request;
 
 Vue.config.productionTip = false
 
+Vue.component('commonCategory',Commoncategory)
 
 new Vue({
   router,

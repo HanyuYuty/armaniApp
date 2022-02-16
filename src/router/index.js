@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import categoryRoutes from"../router/categoryRoutes";
+
 
 
 
@@ -26,7 +28,8 @@ const routes = [
   {
     path: "/goods",
     name: 'goods',
-    component: () => import('../views/Goods.vue')
+    component: () => import('../views/Goods.vue'),
+    children:categoryRoutes
   },
   {
     path: '/details/:productCode',

@@ -50,15 +50,23 @@
         >
       </van-swipe>
     </van-notice-bar>
-    <aside>
-      <van-sidebar v-model="activeKey">
-        <van-sidebar-item
-          :title="item.title"
-          v-for="item in sidebarList"
-          :key="item.id"
-        />
-      </van-sidebar>
-    </aside>
+    <van-row gutter="20">
+      <van-col span="6">
+        <aside>
+          <van-sidebar v-model="activeKey">
+            <van-sidebar-item
+              :title="item.title"
+              v-for="item in sidebarList"
+              :key="item.id"
+              :to="host + item.path"
+            />
+          </van-sidebar>
+        </aside>
+      </van-col>
+      <van-col span="18">
+        <router-view></router-view>
+      </van-col>
+    </van-row>
   </div>
 </template>
 
@@ -73,6 +81,7 @@ export default {
       value: "",
       NoticeDate: [], //公告栏初始
       activeKey: 0,
+      host: "/goods",
       hotSearch: [
         {
           goodsname: "大师粉底液",
@@ -96,22 +105,27 @@ export default {
         {
           title: "全部",
           id: 1,
+          path: "/",
         },
         {
           title: "彩妆衣橱",
           id: 2,
+          path: "/makeup",
         },
         {
           title: "奢宠护肤",
           id: 3,
+          path: "/skincare",
         },
         {
           title: "香水衣橱",
           id: 4,
+          path: "/fragrance",
         },
         {
           title: "限量礼盒",
           id: 5,
+          path: "/others",
         },
       ],
     };
@@ -164,10 +178,15 @@ export default {
 .van-sidebar {
   text-align: center;
   color: black;
-
+.van-sidebar-item{
+  padding: 30px 15px;
+}
   .van-sidebar-item--select::before {
     left: 20px;
     background-color: rgb(182, 25, 25);
   }
+}
+.van-col{
+  padding: 0px !important;
 }
 </style>
