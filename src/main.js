@@ -31,10 +31,12 @@ import {
   Col, Row,
   Cell, CellGroup ,
   List,
-  Loading
+  Loading,
+  Sku
 } from 'vant';
 
 
+Vue.use(Sku);
 Vue.use(Loading);
 Vue.use(List);
 Vue.use(Cell);

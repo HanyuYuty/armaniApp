@@ -29,48 +29,42 @@
       <!-- <div class="line"></div> -->
     </div>
     <div class="colors">
-      <!-- <van-button
-        icon="plus"
-        type="primary"
+      <h5>{{ defalutTitle }}</h5>
+      <IsColor
+        :colortype="item"
         v-for="item in colorNum"
         :key="item.id"
-      >
-        <template #icon>
-          <van-image
-          v-if="item.variantIcon"
-            width="5rem"
-            height="5rem"
-            fit="cover"
-            :src="item.variantIcon"
-          />
+        @click="getdefalutText"
+      ></IsColor>
+      <van-button  type="primary"  >
+        <template #default>
+          更多
         </template>
-      </van-button> -->
-      <div class="color_block" v-for="item in colorNum" :key="item.id">
-       
-        
-      </div>
-
+      </van-button>
     </div>
   </div>
 </template>
 
 
 <script>
-import { mapMutations, mapState, mapGetters } from "vuex";
+import { mapGetters } from "vuex";
 import Loading from "../components/Loading.vue";
+import IsColor from "../components/IsColor.vue";
 export default {
   name: "Details",
   created() {
-    console.log("create is working");
-    //this.getGoodsInfo();
+    
   },
   mounted() {
-    //console.log("mounted is working");
+    
   },
   activated() {
     this.getGoodsInfo(this.$route.params.productCode);
-
-    console.log("activated is working");
+  },
+  deactivated() {
+  
+    this.defalutTitle = "";
+    console.log(" this.defalutTitle", this.defalutTitle);
   },
 
   data() {
@@ -79,38 +73,39 @@ export default {
       currentGoodsInfo: {},
       childrenInfo: [],
       colorNum: [],
-
-      //productCode: this.$route.params.productCode,
+      defalutTitle: "",
     };
   },
   computed: {
     //...mapState("Loading", ["isloading"]),
     ...mapGetters(["getLoadingState"]),
-    //获取默认展示五种色号
-    // getColorNum() {
-    //   return this.childrenInfo.length >= 5 ? 5 : this.childrenInfo.length;
-    // },
 
-    isColororImg() {
-      const res = this.childrenInfo.filter((item) => {
-        item.variantColor;
-      });
-      console.log("color", res);
-    },
   },
-  components: { Loading },
+  components: { Loading, IsColor },
   methods: {
     //获取当前商品数据
     async getGoodsInfo(productCode) {
       const { data } = await this.$request.get("/product/" + productCode);
       data.code == 200 ? this.$store.commit("Loading/hideLoading") : "";
+      //获取当前商品轮播图
       this.GoodsImgs = data.data.productImages;
+      //获取当前商品信息
       this.currentGoodsInfo = data.data;
+      //获取子产品信息
       this.childrenInfo = this.currentGoodsInfo.childProductList;
+      //默认显示5个以内的子产品
       this.colorNum = this.childrenInfo.slice(0, 5);
-      console.log("colorNum", this.colorNum);
-      console.log("childrenInfo", this.childrenInfo);
+      console.log(' this.colorNum', this.colorNum);
+      //获取默认展示子产品规格
+      this.defalutTitle = this.colorNum[0].variantFirstCustValue;
+  
     },
+    //点击获取当前商品规格
+    getdefalutText(ev) {
+      this.defalutTitle = ev;
+    },
+  },
+  watch: {
   },
 };
 </script>
@@ -145,4 +140,16 @@ export default {
 //   height: 2px;
 //   background: rgb(187, 187, 187);
 // }
+.van-button{
+  background: #fff;
+  border: 1px solid black;
+  color: #000;
+  font-size: 12px;
+  width: 10vw;
+  height: 4.5vh;
+  padding: 0px;
+  vertical-align: text-bottom;
+  
+
+}
 </style>

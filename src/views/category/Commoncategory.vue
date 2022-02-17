@@ -71,7 +71,8 @@ export default {
             page: this.page,
           },
         });
-      this.goodsListTotal(data.data.total,data.data.result)
+
+        this.goodsListTotal(data.data.total, data.data.result);
       } else {
         // const { data } = await this.$request.get("/product/goodslist/", {
         //   params: {
@@ -79,12 +80,15 @@ export default {
         //     mainCategory: "m-" + category[this.$route.name],
         //   },
         // });
-          const { data } = await this.$request.get("/product/goodslist/"+"m-" + category[this.$route.name], {
-          params: {
-            page: this.page,
-          },
-        });
-       this.goodsListTotal(data.data.total,data.data.result)
+        const { data } = await this.$request.get(
+          "/product/goodslist/" + "m-" + category[this.$route.name],
+          {
+            params: {
+              page: this.page,
+            },
+          }
+        );
+        this.goodsListTotal(data.data.total, data.data.result);
       }
     },
     //获取路由name对应请求参数。
@@ -111,10 +115,9 @@ export default {
       this.page++;
     },
     //获取商品代号，并跳转到详情页。
-    getGoodsInfo(productCode){
-      this.$router.push('/details/'+productCode)
-
-    }
+    getGoodsInfo(productCode) {
+      this.$router.push("/details/" + productCode);
+    },
   },
 };
 </script>
@@ -136,7 +139,6 @@ export default {
     }
   }
 }
-
 </style>
 
 
