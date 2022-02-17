@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="component_input">
     <input
       type="text"
       @input="isValue"
@@ -48,7 +48,7 @@ export default {
     clearInterval() {
       clearInterval(this.isScroll);
       //触发父组件的search事件，并把不再滚动的值传过去。
-      this.$emit("search", this.currentContent,1);
+      this.$emit("search", this.currentContent);
     },
     //输入内容时，取消定时器并把节点隐藏。
     isValue(e) {
@@ -145,6 +145,7 @@ input {
   top: 7px;
   color: #b4b4b4;
 }
+
 // #con1 li {
 //   list-style: none;
 //   line-height: 30px;

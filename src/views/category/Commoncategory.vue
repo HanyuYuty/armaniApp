@@ -66,17 +66,22 @@ export default {
     async getGoodsList() {
       const category = this.getCategory();
       if (category[this.$route.name] == "all") {
-        const { data } = await this.$request.get("/product/list", {
+        const { data } = await this.$request.get("/product/goodslist", {
           params: {
             page: this.page,
           },
         });
       this.goodsListTotal(data.data.total,data.data.result)
       } else {
-        const { data } = await this.$request.get("/product/categroylist", {
+        // const { data } = await this.$request.get("/product/goodslist/", {
+        //   params: {
+        //     page: this.page,
+        //     mainCategory: "m-" + category[this.$route.name],
+        //   },
+        // });
+          const { data } = await this.$request.get("/product/goodslist/"+"m-" + category[this.$route.name], {
           params: {
             page: this.page,
-            mainCategory: "m-" + category[this.$route.name],
           },
         });
        this.goodsListTotal(data.data.total,data.data.result)
@@ -104,11 +109,9 @@ export default {
       this.finished = this.goodsList.length == this.total;
 
       this.page++;
-      console.log(this.goodsList);
     },
     //获取商品代号，并跳转到详情页。
     getGoodsInfo(productCode){
-      console.log('productCode',productCode);
       this.$router.push('/details/'+productCode)
 
     }
@@ -119,6 +122,7 @@ export default {
 
 <style lang="scss">
 .common {
+  margin-top: 105px;
   .van-cell {
     .van-cell__value--alone {
       text-align: center;
@@ -132,6 +136,7 @@ export default {
     }
   }
 }
+
 </style>
 
 

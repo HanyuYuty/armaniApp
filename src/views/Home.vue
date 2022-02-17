@@ -44,7 +44,6 @@
 
               <div class="productname">{{ item.productName }}</div>
               <div class="productname-en">{{ item.productNameEn }}</div>
-
               <van-rate
                 v-model="item.productScore"
                 :size="12"
@@ -54,17 +53,13 @@
                 readonly
               />
               <div class="goods-price">￥{{ item.defaultPrice }}</div>
-              <van-button type="primary" block color="black" size="small"
+              <van-button type="primary" block color="black" size="small" class="home_button"
                 >立即购买</van-button
               >
             </swiper-slide>
-
-            <!-- <div class="swiper-pagination"></div> -->
             <!-- 如果需要导航按钮 -->
-           
-              <div class="swiper-button-prev" slot="button-prev"></div>
-              <div class="swiper-button-next" slot="button-next"></div>
-           
+            <div class="swiper-button-prev" slot="button-prev"></div>
+            <div class="swiper-button-next" slot="button-next"></div>
           </swiper>
         </template>
       </van-tab>
@@ -111,15 +106,15 @@ export default {
       hotGoodsTab: [], //明星产品tab
       hotGoods: [], //明星产品（初始状态）
       hotGoodsInfomation: [], //获取明星产品其他信息（详情）
-      hotGoodsCode: [],//明星产品的code
-      website: [],//官网尊享三组图
-      buttomBanner: [],//底部bannner
+      hotGoodsCode: [], //明星产品的code
+      website: [], //官网尊享三组图
+      buttomBanner: [], //底部bannner
       swiperOptions: {
         slidesPerView: 2, //显示个数
         // direction: "vertical",
-        pagination: {
-          el: ".swiper-pagination",
-        },
+        // pagination: {
+        //   el: ".swiper-pagination",
+        // },
         navigation: {
           nextEl: ".swiper-button-next",
           prevEl: ".swiper-button-prev",
@@ -143,12 +138,10 @@ export default {
     getTopBanner() {
       this.$request.get("/getIndex/" + "valentine").then(({ data }) => {
         const dataList = data.data.map((item) => JSON.parse(item.content));
-        console.log('dataList',dataList);
         this.images = dataList[0].dataList;
-        
+
         //明星产品的tab
         this.hotGoodsTab = dataList[1].dataList;
-        console.log('this.hotGoodsTab',this.hotGoodsTab);      
         this.website = dataList[4].dataList;
         this.buttomBanner = dataList[6].dataList;
         this.defaultCatename;
@@ -160,7 +153,6 @@ export default {
         (item) => item.catename == title
       )[0].productList;
       this.hotGoodsCode = this.hotGoods.map((item) => item.productCode);
-      console.log('this.hotGoodsCode',this.hotGoodsCode);
       this.hotGoodsInfo();
     },
     //获取明星商品其他信息
@@ -177,7 +169,6 @@ export default {
         )
         .then(({ data }) => {
           this.hotGoodsInfomation = data.data;
-          console.log("hotGoodsInfomation", this.hotGoodsInfomation);
         });
     },
   },
@@ -198,6 +189,7 @@ export default {
     // this.swiper.slideTo(3, 1000, false);
   },
   watch: {},
+ 
 };
 </script>
 
@@ -205,7 +197,6 @@ export default {
 
 
 <style lang="scss">
-
 .van-tabs__line {
   width: 55px;
   background: #000;
@@ -235,20 +226,7 @@ export default {
   padding-top: 10px;
 }
 
-.productname {
-  font-size: 16px;
-  padding: 0 10px;
-  font-weight: 400;
-  text-align: center;
-  box-sizing: border-box;
-  height: 24px;
-  line-height: 24px;
-  display: inline-block;
-  white-space: nowrap;
-  width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+
 .productname-en {
   height: 25px;
   line-height: 25px;
@@ -264,20 +242,17 @@ export default {
   text-overflow: ellipsis;
   font-weight: 600;
 }
-.van-button {
+.home_button {
   width: 160px;
 }
-.goods-price {
-  font-family: Bahnschrift SemiLight Condensed;
-}
+
 .images-box {
   box-sizing: border-box;
   padding: 0px 10px;
   margin-bottom: 30px;
 }
 
-.van-swipe__indicator{
+.van-swipe__indicator {
   background: rgb(126, 126, 126);
-  
 }
 </style>

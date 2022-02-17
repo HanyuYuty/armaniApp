@@ -30,10 +30,12 @@ import {
   SidebarItem,
   Col, Row,
   Cell, CellGroup ,
-  List
+  List,
+  Loading
 } from 'vant';
 
 
+Vue.use(Loading);
 Vue.use(List);
 Vue.use(Cell);
 Vue.use(CellGroup);

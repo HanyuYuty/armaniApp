@@ -28,28 +28,28 @@
         @search="getGoodsInfo"
         @input="fn1"
       ></InputPlaceHolder>
-    </header>
-    <van-notice-bar
-      left-icon=""
-      :scrollable="false"
-      background="rgb(223, 223, 223)"
-      color="black"
-      mode="closeable"
-    >
-      <van-swipe
-        vertical
-        class="notice-swipe"
-        :autoplay="2000"
-        :show-indicators="false"
+      <van-notice-bar
+        left-icon=""
+        :scrollable="false"
+        background="rgb(223, 223, 223)"
+        color="black"
+        mode="closeable"
       >
-        <van-swipe-item
-          v-for="item in NoticeDate"
-          :key="item.uuid"
-          @click="getNoticeInfo(item.linkData.code)"
-          >{{ item.title }}</van-swipe-item
+        <van-swipe
+          vertical
+          class="notice-swipe"
+          :autoplay="2000"
+          :show-indicators="false"
         >
-      </van-swipe>
-    </van-notice-bar>
+          <van-swipe-item
+            v-for="item in NoticeDate"
+            :key="item.uuid"
+            @click="getNoticeInfo(item.linkData.code)"
+            >{{ item.title }}</van-swipe-item
+          >
+        </van-swipe>
+      </van-notice-bar>
+    </header>
     <van-row gutter="20">
       <van-col span="6">
         <aside>
@@ -132,16 +132,14 @@ export default {
   },
   methods: {
     //获取当前搜索框的滚动内容
-    getGoodsInfo(currentContent, number) {
+    getGoodsInfo(currentContent) {
       console.log("currentContent", currentContent);
-      console.log("number", number);
     },
     //获取滚动公告的内容
     async getNoticeDate() {
       const { data } = await this.$request.get("/getIndex/msg/msgDatalist");
       const res = JSON.parse(data.data[0].content);
       this.NoticeDate = res.dataList;
-      console.log(" this.NoticeDate", this.NoticeDate);
     },
     //点击公告时,当前公告的productCode
     getNoticeInfo(productCode) {
@@ -178,15 +176,32 @@ export default {
 .van-sidebar {
   text-align: center;
   color: black;
-.van-sidebar-item{
-  padding: 30px 15px;
-}
+  .van-sidebar-item {
+    padding: 30px 15px;
+  }
   .van-sidebar-item--select::before {
     left: 20px;
     background-color: rgb(182, 25, 25);
   }
 }
-.van-col{
+.van-col {
   padding: 0px !important;
+}
+
+header,
+aside {
+  position: fixed;
+  z-index: 10;
+  background: white;
+}
+header {
+}
+aside {
+  top: 110px;
+  height: 684px;
+  .van-sidebar {
+    height: 100%;
+    background-color: #f7f8fa
+  }
 }
 </style>
