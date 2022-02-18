@@ -32,10 +32,15 @@ import {
   Cell, CellGroup ,
   List,
   Loading,
-  Sku
+  Sku,
+  GoodsAction, GoodsActionIcon, GoodsActionButton
 } from 'vant';
 
 
+
+Vue.use(GoodsAction);
+Vue.use(GoodsActionButton);
+Vue.use(GoodsActionIcon);
 Vue.use(Sku);
 Vue.use(Loading);
 Vue.use(List);

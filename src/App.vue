@@ -13,7 +13,7 @@
         active-color="#fff"
         inactive-color="rgb(112, 112, 112)"
         fixed
-        z-index="100"
+        z-index="5"
       >
         <van-tabbar-item icon="home-o" size="25" to="/home">
           <span>首页</span>

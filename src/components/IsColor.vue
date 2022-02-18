@@ -1,5 +1,5 @@
 <template>
-  <div class="colortype" >
+  <div class="colortype" ref="div">
     <img
       :src="colortype.variantIcon || ' '"
       alt=""
@@ -18,8 +18,7 @@ export default {
   props: ["colortype"],
   created() {
    
-    //  console.log('this.colortype.variantFirstCustValue',this.colortype.variantFirstCustValue);
-    //this.text(this.colortype.variantFirstCustValue)
+    
   },
   mounted(){
    
@@ -33,8 +32,9 @@ export default {
   methods: {
     text(value, e) {
      
-      e.target.parentElement.style.border = "";
-      e.target.parentElement.style.border = " 1px solid black";
+      // e.target.parentElement.style.border = "";
+      // e.target.parentElement.style.border = " 1px solid black";
+      console.log('colortype',this.colortype);
       this.$emit("click", value);
     },
   },

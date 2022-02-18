@@ -29,7 +29,11 @@
                 height="8rem"
                 fit="cover"
                 :src="item.productImages[0]"
-              />
+              >
+                <template v-slot:loading>
+                          <van-loading type="spinner" size="20" />      
+                </template>
+              </van-image>
               <h5>{{ item.productName }}</h5>
               <span>￥{{ item.defaultPrice }}</span>
             </template>
