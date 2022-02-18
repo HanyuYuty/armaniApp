@@ -1,41 +1,71 @@
 <template>
   <div class="colortype" ref="div">
-    <img
+    <!-- <img
+      v-if="colortype"
       :src="colortype.variantIcon || ' '"
       alt=""
       :style="{
-        backgroundColor: colortype.variantColor || ' '
+        backgroundColor: colortype.variantColor || ' ',
       }"
       class="currentImg"
       @click="text(colortype.variantFirstCustValue, $event)"
     />
+
+    <img
+      v-else
+      :src="childreninfo.variantIcon || ' '"
+      alt=""
+      :style="{
+        backgroundColor: childreninfo.variantColor || ' ',
+      }"
+      class="currentImg"
+    /> -->
+    <!-- <slot name="goods-label"></slot> -->
+
+    <img
+      :src="skuOrDefaultSrc(colortype || childreninfo)"
+      alt=""
+      :style="{
+        backgroundColor: skuOrDefaultBg(colortype || childreninfo),
+      }"
+      class="currentImg"
+      @click="text(colortype||childreninfo, $event)"
+    />
+    <slot name="goods-label"></slot>
   </div>
 </template>
 
 
 <script>
 export default {
-  props: ["colortype"],
-  created() {
-   
-    
-  },
-  mounted(){
-   
+  props: ["colortype", "childreninfo"],
+  created() {},
+  mounted() {
+    document.querySelector(".colortype").style.border = " 2px solid black";
   },
 
-  activated() {
-    //this.text(this.colortype.variantFirstCustValue)
-  },
+  activated() {},
   deactivated() {},
 
   methods: {
     text(value, e) {
-     
-      // e.target.parentElement.style.border = "";
-      // e.target.parentElement.style.border = " 1px solid black";
-      console.log('colortype',this.colortype);
-      this.$emit("click", value);
+
+      //获取该组件中全部div节点，把他们遍历并进行去除样式。
+      const divs = document.querySelectorAll(".colortype");
+      divs.forEach((item) => (item.style.border = ""));
+      //点击之后，样式显示。
+      e.target.parentElement.style.border = " 2px solid black";
+      // 根据传入的不同数据，返回不同值
+      this.$emit("click", value.variantFirstCustValue, this.colortype || this.childreninfo);
+    },
+
+    // 判断规格是否是链接
+    skuOrDefaultSrc(type) {
+      return type.variantIcon ? type.variantIcon : " ";
+    },
+    // 判断规格是否是颜色
+    skuOrDefaultBg(type) {
+      return type.variantColor ? type.variantColor : " ";
     },
   },
   watch: {},
