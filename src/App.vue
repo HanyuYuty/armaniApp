@@ -8,7 +8,7 @@
       <!-- <van-nav-bar
   title="阿玛尼美妆官方精品商城"
 /> -->
-      <van-tabbar
+      <van-tabbar route
         v-model="active"
         active-color="#fff"
         inactive-color="rgb(112, 112, 112)"

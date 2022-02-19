@@ -12,12 +12,15 @@ export default {
     namespaced: true,
     state: {
         cartList,
+        Qty: 1,
     },
     getters: {
-        
+
         cartListNum(state) {
             return state.cartList.length
-        }
+        },
+
+
 
 
     },
@@ -31,15 +34,33 @@ export default {
             );
             // 改变state
             state.cartList = payload;
+        },
+        //添加数量
+        addQty(state, payload) {
+            const {
+                value,
+                id
+            } = payload;
+            state.cartList.find(item => item.id == id).qty = value;
+            localStorage.setItem('goodsInfo', JSON.stringify(state.cartList))
+        },
+        //当前数量
+        // currentQty(state,payload){
+        //  state.Qty = state.cartList.find(item=>item.id==payload).qty;
+
+
+        // }
+        //删除商品
+        deleteGoods(state, payload) {
+            state.cartList = state.cartList.filter(item => item.id != payload);
+            localStorage.setItem('goodsInfo', JSON.stringify(state.cartList))
+
         }
 
     },
     actions: {
-        // addGoods(context,payload){
-        //     context.state.cartList.push(payload)
-        //     console.log('context',context);
-        //     console.log('payload',payload);
+        getGoodsImg(context, payload) {
 
-        // }
+        }
     }
 }

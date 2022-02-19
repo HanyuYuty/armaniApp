@@ -111,18 +111,17 @@
 <script>
 import IsColor from "../components/IsColor.vue";
 import Introduction from "../components/Introduction.vue";
-import Mymixins from "../mixin/Mymixins"
+import Mymixins from "../mixin/Mymixins";
 export default {
-  mixins:[Mymixins],
+  mixins: [Mymixins],
   name: "Details",
-  created() {
-    
-  },
+  created() {},
   mounted() {},
   beforeUpdate() {},
   updated() {},
   activated() {
-    
+    //确保localStorage是否有数据。
+    this.checkLocalStorage();
     //根据产品号请求数据
     this.getGoodsInfo(this.$route.params.productCode);
   },
@@ -145,14 +144,11 @@ export default {
       goods: {}, //sku组件配置
       show: false, //sku是否显示
       goodsId: "",
-      
     };
   },
   computed: {
-   
     //获取此时购物车商品数量
     cartListNum() {
-     
       return this.$store.getters["Cart/cartListNum"];
     },
   },
@@ -171,7 +167,7 @@ export default {
       this.currentGoodsInfo = data.data;
       // //获取子产品信息
       this.childrenInfo = this.currentGoodsInfo.childProductList;
-
+console.log('childrenInfo',this.childrenInfo);
       // //默认显示5个以内的子产品
       this.colorNum = this.childrenInfo.slice(0, 5);
 
@@ -195,7 +191,18 @@ export default {
     onAddCartClicked() {
       this.show = false;
     },
-   
+    //获取localStorage是否有数据
+    checkLocalStorage() {
+      let cartList = window.localStorage.getItem("goodsInfo");
+
+      try {
+        cartList = JSON.parse(cartList) || [];
+        console.log("cartList", cartList);
+      } catch (err) {
+        cartList = [];
+      }
+      this.addToCartList = cartList;
+    },
     //加入购物车
     addToCart() {
       //点击时拿到当前选择的子产品，用户若无选择，默认为第一个子产品。
@@ -206,9 +213,11 @@ export default {
         variantFirstCustValue,
         productCode,
         channelPrice,
+        productImageDefault=productImageDefault||$src
       } = this.childrenInfo.find(
         (item) => item.variantFirstCustValue == this.defalutTitle
       );
+
       //先判断购物车数据是否有当前选择的商品，如果有数量+1，没有才添加数据。
       const product = this.addToCartList.find(
         (item) => item.productCode == productCode
@@ -223,6 +232,7 @@ export default {
           variantFirstCustValue,
           productCode,
           channelPrice,
+          productImageDefault,
           qty: 1,
         });
       }

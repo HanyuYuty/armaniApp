@@ -42,11 +42,20 @@ import {
   Steps,
   Checkbox,
   CheckboxGroup,
-  Card
+  Card,
+  Divider,
+  SubmitBar,
+  RadioGroup, Radio,
+  DropdownMenu, DropdownItem
 } from 'vant';
 
 
-
+Vue.use(DropdownMenu);
+Vue.use(DropdownItem);
+Vue.use(Radio);
+Vue.use(RadioGroup);
+Vue.use(SubmitBar);
+Vue.use(Divider);
 Vue.use(Card);
 Vue.use(Checkbox);
 Vue.use(CheckboxGroup);
@@ -81,8 +90,8 @@ Vue.use(Sidebar);
 Vue.use(SidebarItem);
 
 
-
-
+//商品无图默认为该图
+Vue.prototype.$src = "	https://www.giorgioarmanibeauty.cn/img/logo.62aebeab.png";
 
 import request, {
   host

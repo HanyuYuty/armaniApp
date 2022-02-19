@@ -2,10 +2,7 @@
   <div class="cart">
     <header>
       <div class="logo">
-        <img
-          src="	https://www.giorgioarmanibeauty.cn/img/logo.62aebeab.png"
-          alt="logo"
-        />
+        <img :src="$src" alt="logo" />
       </div>
       <div class="line"></div>
       <Step></Step>
@@ -32,8 +29,8 @@ export default {
 
 <style lang="scss">
 .cart {
-   height: 100%;
-   overflow-y:scroll ;
+  height: 100%;
+  overflow-y: scroll;
   header {
     position: fixed;
     top: 0px;

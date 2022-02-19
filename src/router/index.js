@@ -10,16 +10,6 @@ import categoryRoutes from "../router/categoryRoutes";
 Vue.use(VueRouter)
 
 const routes = [
-
-  // {
-  //   path: '/about',
-  //   name: 'About',
-  //   // route level code-splitting
-  //   // this generates a separate chunk (about.[hash].js) for this route
-  //   // which is lazy-loaded when the route is visited.
-  //   component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-
-  // },
   {
     path: '/home',
     name: 'home',
@@ -44,7 +34,7 @@ const routes = [
       name:'incart',
       component:()=>import("../views/Cart/Incart.vue")
     },{
-      path:'checkout',
+      path:'checkout/:price',
       name:'checkout',
       component:()=>import("../views/Cart/Checkout.vue")
     }]
