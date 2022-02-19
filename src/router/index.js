@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-import categoryRoutes from"../router/categoryRoutes";
+import categoryRoutes from "../router/categoryRoutes";
 
 
 
@@ -29,12 +29,25 @@ const routes = [
     path: "/goods",
     name: 'goods',
     component: () => import('../views/Goods.vue'),
-    children:categoryRoutes
+    children: categoryRoutes
   },
   {
     path: '/details/:productCode',
     name: 'details',
     component: () => import("../views/Details.vue")
+  }, {
+    path: '/cart',
+    name: 'catr',
+    component: () => import('../views/Cart.vue'),
+    children:[{
+      path:'/',
+      name:'incart',
+      component:()=>import("../views/Cart/Incart.vue")
+    },{
+      path:'checkout',
+      name:'checkout',
+      component:()=>import("../views/Cart/Checkout.vue")
+    }]
   },
   {
     path: '*',

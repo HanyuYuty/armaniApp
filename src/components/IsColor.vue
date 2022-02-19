@@ -56,7 +56,7 @@ export default {
       //点击之后，样式显示。
       e.target.parentElement.style.border = " 2px solid black";
       // 根据传入的不同数据，返回不同值
-      this.$emit("click", value.variantFirstCustValue, this.colortype || this.childreninfo);
+      this.$emit("click", value.variantFirstCustValue);
     },
 
     // 判断规格是否是链接

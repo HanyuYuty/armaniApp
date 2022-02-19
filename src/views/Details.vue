@@ -26,7 +26,6 @@
         <h4 class="productname">{{ currentGoodsInfo.productName }}</h4>
         <span class="goods-price">￥{{ currentGoodsInfo.defaultPrice }}</span>
       </div>
-      <!-- <div class="line"></div> -->
     </div>
     <div class="colors">
       <h5>{{ defalutTitle }}</h5>
@@ -84,7 +83,7 @@
     </div>
     <div class="bottom_bar">
       <van-goods-action>
-        <van-goods-action-icon icon="chat-o" text="首页">
+        <van-goods-action-icon icon="chat-o" text="首页" to="/home">
           <template #icon>
             <i class="iconfont icon-MAC"></i>
           </template>
@@ -93,6 +92,7 @@
           icon="cart-o"
           text="购物车"
           :badge="cartListNum"
+          to="/cart"
         />
         <van-goods-action-icon icon="shop-o" text="客服" />
         <van-goods-action-button
@@ -109,17 +109,21 @@
 
 
 <script>
-import { mapGetters } from "vuex";
-import Loading from "../components/Loading.vue";
 import IsColor from "../components/IsColor.vue";
 import Introduction from "../components/Introduction.vue";
+import Mymixins from "../mixin/Mymixins"
 export default {
+  mixins:[Mymixins],
   name: "Details",
-  created() {},
+  created() {
+    
+  },
   mounted() {},
   beforeUpdate() {},
   updated() {},
   activated() {
+    
+    //根据产品号请求数据
     this.getGoodsInfo(this.$route.params.productCode);
   },
   deactivated() {
@@ -141,20 +145,21 @@ export default {
       goods: {}, //sku组件配置
       show: false, //sku是否显示
       goodsId: "",
-      currentClickInfo: {}, //当前点击的商品信息，不分主或子
+      
     };
   },
   computed: {
-    //...mapState("Loading", ["isloading"]),
-    //该getters为进入该组件时，网络延迟导致的数据未回来时，会出现加载中组件。
-    ...mapGetters(["getLoadingState"]),
-    // ...mapGetters(["cartListNum"]),
+   
+    //获取此时购物车商品数量
     cartListNum() {
-      console.log("cartListNum", this.$store.getters["Cart/cartListNum"]);
+     
       return this.$store.getters["Cart/cartListNum"];
     },
   },
-  components: { Loading, IsColor, Introduction },
+  components: {
+    IsColor,
+    Introduction,
+  },
   methods: {
     //获取当前商品数据
     async getGoodsInfo(productCode) {
@@ -178,10 +183,9 @@ export default {
       this.defalutTitle = this.colorNum[0].variantFirstCustValue;
     },
     //点击获取当前商品规格
-    getdefalutText(ev, currentInfo) {
+    getdefalutText(ev) {
       //默认展示商品规格号
       this.defalutTitle = ev;
-      this.currentClickInfo = currentInfo;
     },
     //点击更多，弹窗显示
     changeShow() {
@@ -191,34 +195,41 @@ export default {
     onAddCartClicked() {
       this.show = false;
     },
+   
     //加入购物车
     addToCart() {
-      // const res = this.colorNum.filter(item=>{
-      //   console.log('?',item.variantFirstCustValue==this.defalutTitle);
-      // });
-      // console.log('res',res);
-
-      const res = this.childrenInfo.find(item=>item.variantFirstCustValue==this.defalutTitle);
-      console.log('res',res);
-     
-      // if (this.currentClickInfo.length == 0) {
-      //   console.log("colorNum", this.colorNum[0].variantFirstCustValue);
-      //   return
-      // }
-      // console.log(" this.currentClickInfo", this.currentClickInfo);
-
-      // if (!this.goodsInfo.includes(this.currentGoodsInfo.productCode)) {
-      //   localStorage.setItem("goodsInfo", this.currentGoodsInfo.productCode);
-      // }
-      // this.$store.dispatch("Cart/addGoods", this.currentGoodsInfo.productCode);
-      // console.log("state", this.$store.state.Cart.cartList);
+      //点击时拿到当前选择的子产品，用户若无选择，默认为第一个子产品。
+      const {
+        baseProduct,
+        baseProductName,
+        id,
+        variantFirstCustValue,
+        productCode,
+        channelPrice,
+      } = this.childrenInfo.find(
+        (item) => item.variantFirstCustValue == this.defalutTitle
+      );
+      //先判断购物车数据是否有当前选择的商品，如果有数量+1，没有才添加数据。
+      const product = this.addToCartList.find(
+        (item) => item.productCode == productCode
+      );
+      if (product) {
+        product.qty++;
+      } else {
+        this.addToCartList.push({
+          baseProduct,
+          baseProductName,
+          id,
+          variantFirstCustValue,
+          productCode,
+          channelPrice,
+          qty: 1,
+        });
+      }
+      this.$store.commit("Cart/addGoods", this.addToCartList);
     },
   },
-  watch: {
-    defalutTitle(n, o) {
-     
-    },
-  },
+  watch: {},
 };
 </script>
 
@@ -227,10 +238,12 @@ export default {
 .details {
   margin-bottom: 100px;
 }
+
 .my-swipe {
   transition: all 1s;
   -webkit-animation: anim 1s ease;
 }
+
 @keyframes anim {
   0% {
     height: 0px;
@@ -240,8 +253,10 @@ export default {
     height: 100%;
   }
 }
+
 .goods_info {
   text-align: center;
+
   .goods-price {
     font-size: 18px;
   }
@@ -257,18 +272,22 @@ export default {
   padding: 0px;
   vertical-align: text-bottom;
 }
+
 .van-sku {
   height: 200px;
   border: 1px solid black;
 }
+
 .van-goods-action {
   z-index: 10;
 }
+
 .van-goods-action-button--first {
   margin-left: 5px;
   border-top-left-radius: 0px;
   border-bottom-left-radius: 0px;
 }
+
 .van-goods-action-button--last {
   border-top-right-radius: 0px;
   border-bottom-right-radius: 0px;
@@ -279,6 +298,7 @@ export default {
   flex-wrap: wrap;
   justify-content: space-around;
   padding-left: 15px;
+
   .colortype {
     float: left;
     margin-bottom: 10px;
@@ -296,6 +316,7 @@ export default {
       flex-shrink: 0;
       margin-left: 5px;
     }
+
     span {
       margin-left: 10px;
       font-size: 13px;
@@ -303,5 +324,3 @@ export default {
   }
 }
 </style>
-
-

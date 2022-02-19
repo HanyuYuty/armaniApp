@@ -30,7 +30,7 @@
             <iconfont-heart></iconfont-heart>
           </template>
         </van-tabbar-item>
-        <van-tabbar-item icon="shopping-cart-o" :badge="0" size="25"
+        <van-tabbar-item icon="shopping-cart-o" :badge="cartListNum" size="25" to="/cart"
           >购物车</van-tabbar-item
         >
         <van-tabbar-item icon="contact" size="40">个人中心</van-tabbar-item>
@@ -42,6 +42,7 @@
 
 <script>
 import iconfontHeart from "./iconfont/heart.vue";
+import {mapGetters} from "vuex"
 export default {
   data() {
     return {
@@ -52,6 +53,9 @@ export default {
   components: {
     iconfontHeart,
   },
+  computed:{
+     ...mapGetters('Cart',['cartListNum'])
+  }
 };
 </script>
 
@@ -77,7 +81,7 @@ body {
   height: 100%;
   overflow-y: scroll;
   overflow-x: hidden;
-  margin-bottom: 50px;
+  margin-bottom: 60px;
   font-family: montserrat regular, sans-serif, microsoft yahei;
 }
 

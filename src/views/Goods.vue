@@ -1,27 +1,8 @@
 <template>
   <div>
-    <!-- <van-search
-        v-model="value"
-        right-icon="search"
-        left-icon=""
-        @focus="searchGoods"
-      >
-        <template #label>
-          <van-swipe
-            vertical
-            class="notice-swipe"
-            :autoplay="isAutoplay"
-            :show-indicators="false"
-          >
-            <van-swipe-item
-              @click="swipeItem"
-              v-for="item in hotSearch"
-              :key="item.id"
-              >{{ item.goodsname }}</van-swipe-item
-            >
-          </van-swipe>
-        </template>
-      </van-search> -->
+    <div class="status" v-if="getLoadingState">
+      <Loading></Loading>
+    </div>
     <header>
       <InputPlaceHolder
         :placeholder="hotSearch"
@@ -72,7 +53,9 @@
 
 <script>
 import InputPlaceHolder from "../components/Myinput.vue";
+import Mymixins from "../mixin/Mymixins";
 export default {
+  mixins: [Mymixins],
   created() {
     this.getNoticeDate();
   },
@@ -138,6 +121,7 @@ export default {
     //获取滚动公告的内容
     async getNoticeDate() {
       const { data } = await this.$request.get("/getIndex/msg/msgDatalist");
+      data.code == 200 ? this.$store.commit("Loading/hideLoading") : "";
       const res = JSON.parse(data.data[0].content);
       this.NoticeDate = res.dataList;
     },
@@ -201,7 +185,7 @@ aside {
   height: 684px;
   .van-sidebar {
     height: 100%;
-    background-color: #f7f8fa
+    background-color: #f7f8fa;
   }
 }
 </style>

@@ -28,16 +28,30 @@ import {
   Image as VanImage,
   Sidebar,
   SidebarItem,
-  Col, Row,
-  Cell, CellGroup ,
+  Col,
+  Row,
+  Cell,
+  CellGroup,
   List,
   Loading,
   Sku,
-  GoodsAction, GoodsActionIcon, GoodsActionButton
+  GoodsAction,
+  GoodsActionIcon,
+  GoodsActionButton,
+  Step,
+  Steps,
+  Checkbox,
+  CheckboxGroup,
+  Card
 } from 'vant';
 
 
 
+Vue.use(Card);
+Vue.use(Checkbox);
+Vue.use(CheckboxGroup);
+Vue.use(Step);
+Vue.use(Steps);
 Vue.use(GoodsAction);
 Vue.use(GoodsActionButton);
 Vue.use(GoodsActionIcon);
@@ -70,7 +84,6 @@ Vue.use(SidebarItem);
 
 
 
-
 import request, {
   host
 } from "./utils/request"
@@ -84,7 +97,7 @@ Vue.prototype.$request = request;
 
 Vue.config.productionTip = false
 
-Vue.component('commonCategory',Commoncategory)
+Vue.component('commonCategory', Commoncategory)
 
 new Vue({
   router,

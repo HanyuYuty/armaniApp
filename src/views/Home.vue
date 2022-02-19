@@ -1,5 +1,8 @@
 <template>
   <div class="home">
+     <div class="status" v-if="getLoadingState">
+      <Loading></Loading>
+    </div>
     <!-- 顶部轮播图 -->
     <van-swipe :autoplay="3000" indicator-color="black">
       <van-swipe-item
@@ -96,7 +99,9 @@
 </template>
 
 <script>
+import Mymixins from "../mixin/Mymixins"
 export default {
+    mixins:[Mymixins],
   name: "Home",
   components: {},
   data() {
@@ -138,6 +143,7 @@ export default {
     getTopBanner() {
       this.$request.get("/getIndex/" + "valentine").then(({ data }) => {
         const dataList = data.data.map((item) => JSON.parse(item.content));
+        data.code == 200 ? this.$store.commit("Loading/hideLoading") : "";
         this.images = dataList[0].dataList;
 
         //明星产品的tab
@@ -184,11 +190,13 @@ export default {
       this.hotGoodsCode = this.hotGoods.map((item) => item.productCode);
       this.hotGoodsInfo();
     },
+   
   },
   mounted() {
     // this.swiper.slideTo(3, 1000, false);
   },
-  watch: {},
+  watch: {
+  },
  
 };
 </script>
@@ -197,6 +205,9 @@ export default {
 
 
 <style lang="scss">
+.home{
+  margin-bottom: 50px;
+}
 .van-tabs__line {
   width: 55px;
   background: #000;
