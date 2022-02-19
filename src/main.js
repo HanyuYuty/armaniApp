@@ -46,10 +46,16 @@ import {
   Divider,
   SubmitBar,
   RadioGroup, Radio,
-  DropdownMenu, DropdownItem
+  DropdownMenu, DropdownItem,
+  Toast,
+  Form,
+  Field
 } from 'vant';
 
 
+Vue.use(Form);
+Vue.use(Field);
+Vue.use(Toast);
 Vue.use(DropdownMenu);
 Vue.use(DropdownItem);
 Vue.use(Radio);

@@ -9,7 +9,11 @@
     <van-row gutter="1" v-for="item in cartList" :key="item.id">
       <van-col span="2">
         <van-checkbox-group v-model="radios" class="group">
-          <van-checkbox :name="item.id" shape="square"  icon-size="16px"></van-checkbox>
+          <van-checkbox
+            :name="item.id"
+            shape="square"
+            icon-size="16px"
+          ></van-checkbox>
         </van-checkbox-group>
       </van-col>
       <van-col span="22">
@@ -30,14 +34,14 @@
             />
           </template>
           <template #price-top>
-          <Select @change="getCurrentOptions" :id="item.id"></Select>
+            <Select @change="getCurrentOptions" :id="item.id"></Select>
           </template>
         </van-card>
         <van-divider />
       </van-col>
     </van-row>
 
-    <van-submit-bar button-text="提交订单" @submit="onSubmit" class="cart_bar">
+    <van-submit-bar button-text="提交订单" class="cart_bar">
       <template #default>
         <div class="price">总价:￥{{ price }}</div>
         <div class="go_on" @click="gotoHome">继续购物</div>
@@ -53,15 +57,16 @@
 
 <script>
 import { mapState } from "vuex";
-import Select from "../../components/Select.vue"
-import Mymixins from "../../mixin/Mymixins"
+import Select from "../../components/Select.vue";
+import Mymixins from "../../mixin/Mymixins";
 export default {
-    name:"Incart",
-    mixins:[Mymixins],
+  name: "Incart",
+  mixins: [Mymixins],
   created() {},
   data() {
     return {
       radios: [],
+      show: true,
     };
   },
   computed: {
@@ -83,47 +88,47 @@ export default {
         .filter((item) => this.radios.includes(item.id))
         .reduce((pre, item) => pre + item.channelPrice * item.qty, 0);
     },
-  
- 
-   
   },
   methods: {
     //点击删除当前商品
     getCurrentGoods(id) {
-     this.$store.commit('Cart/deleteGoods',id)
+      this.$store.commit("Cart/deleteGoods", id);
     },
-    onSubmit() {},
     //选择商品数量
-    getCurrentOptions(value,id){
-        this.$store.commit('Cart/addQty',{value,id})
+    getCurrentOptions(value, id) {
+      this.$store.commit("Cart/addQty", { value, id });
     },
     //继续购物
-    gotoHome(){
-        this.$router.push('/home')
+    gotoHome() {
+      this.$router.push("/home");
     },
     //结算
-    gotoCheck(){
-        this.$router.push({
-           name:'checkout',
-            params:{
-                price:this.price
-            }
-            
-        })
-    }
-  },
-  watch: {
-    value(n) {
-      console.log("value.n", n);
+    gotoCheck() {
+      if (!(this.radios.length > 0 || this.checked)) {
+        this.$toast({
+          message: "请选择商品",
+          icon: "shop-collect",
+        });
+        return;
+      }
+
+      this.$router.push({
+        name: "checkout",
+        params: {
+          price: this.price,
+        },
+      });
     },
   },
-  components:{Select}
+  watch: {},
+  components: { Select },
 };
 </script>
 
 <style lang="scss">
 .incart {
   margin-top: 145px;
+  margin-bottom: 50px;
   h3 {
     margin-bottom: 30px;
   }
@@ -141,8 +146,8 @@ export default {
     background: #fff;
   }
   .del {
-    position: fixed;
-    left: 22.2rem;
+   position: absolute;
+    left: 13rem;
   }
   .cart_bar {
     background: rgb(155, 155, 155);
@@ -170,9 +175,21 @@ export default {
       }
     }
   }
-  .group{
-     margin-left: 10px;
-     margin-top: 38px;
+  .group {
+    margin-left: 10px;
+    margin-top: 38px;
+  }
+  .wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+
+  .block {
+    width: 120px;
+    height: 120px;
+    background-color: #fff;
   }
 }
 </style>

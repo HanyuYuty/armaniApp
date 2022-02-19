@@ -1,12 +1,12 @@
 <template>
   <div class="step">
-    <div ref="div_one">
+    <div ref="div_one" class="div_one">
       <span>我的购物车</span>
       <span class="a_line" ref="span_one"></span>
     </div>
-    <div>
+    <div ref="div_two" class="div_two">
       <span>提交订单</span>
-      <span class="a_line"></span>
+      <span class="a_line" ref="span_two"></span>
     </div>
   </div>
 </template>
@@ -17,14 +17,27 @@ export default {
   data() {
     return {};
   },
-  created() {},
+  created() {
+  
+    
+  },
   mounted() {
-    console.log("route", this.$route.name);
+    //console.log("route", this.$route.name);
     if (this.$route.name == "incart") {
       this.$refs.div_one.style.color = "black";
       this.$refs.span_one.style.backgroundColor = 'black'
+    }else{
+       this.$refs.div_two.style.color = "black";
+      this.$refs.span_two.style.backgroundColor = 'black'
     }
+
   },
+  destroyed(){
+    
+  },
+  watch:{
+   
+  }
 };
 </script>
 
@@ -32,6 +45,9 @@ export default {
 .step {
   padding: 0px 20px;
   box-sizing: border-box;
+  height: 4.5vh;
+  background: #fff;
+  margin-bottom: 20px;
   //   display: flex;
   //   justify-content: space-around;
   //   align-items: center;
