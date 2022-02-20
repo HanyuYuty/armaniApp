@@ -1,18 +1,24 @@
 <template>
   <div id="login">
-    
     <header>
       <div class="logo">
         <img :src="$src" alt="logo" />
       </div>
       <div class="line"></div>
     </header>
-    
-    <van-form @submit="onSubmit">
-          <h1>请登录</h1>
+
+    <van-form @submit="onBlur" ref="form">
+      <h1 class="titles">请登录</h1>
       <van-field
         v-model="username"
-        name="phone"
+        type="username"
+        name="username"
+        placeholder="用户名"
+        :rules="[{ required: true, message: '请填写用户名' }]"
+      />
+      <van-field
+        v-model="phoneNumber"
+        name="phoneNumber"
         placeholder="手机号"
         :rules="[{ required: true, message: '请填写用户名' }]"
       />
@@ -24,17 +30,17 @@
         :rules="[{ required: true, message: '请填写密码' }]"
       />
       <div style="margin: 16px">
-        <van-button
-          round
-          block
-          type="info"
-          native-type="submit"
-          @click="onSubmit"
-          >提交</van-button
+        <van-button round block type="info" native-type="submit"
+          >登录</van-button
         >
       </div>
     </van-form>
-    <van-button block type="info" native-type="submit" class="reg" @click="goToReg"
+    <van-button
+      block
+      type="info"
+      native-type="submit"
+      class="reg"
+      @click="goToReg"
       >注册</van-button
     >
   </div>
@@ -42,20 +48,37 @@
 
 
 <script>
+
 export default {
   data() {
     return {
       username: "",
       password: "",
+      phoneNumber: "",
     };
   },
   methods: {
-    onSubmit(values) {
-      console.log(values);
+   async onBlur(values) {
+        const data = await this.$store.dispatch("UserInfo/loginIng", values);
+        if(data.code==200){
+           const { targetUrl = "/home" } = this.$route.query;
+        this.$router.push({
+          path: targetUrl
+        });
+      } else if (data.code == 400) {
+        this.$notify({ type: "danger", message: "用户名或密码错误" });
+      }
+        
+      // const { data } = await this.$request.get("/users/login", {
+      //   params: values,
+      //});
+      // if (data.code == 200) {
+      //   this.$store.dispatch("UserInfo/loginIng", data.data[0]);
+      //}
     },
-    goToReg(){
-        this.$router.push('/register')
-    }
+    goToReg() {
+      this.$router.push("/register");
+    },
   },
 };
 </script>
@@ -111,6 +134,11 @@ export default {
     border: 0px;
     margin-bottom: 5px;
     margin-left: 16px;
+  }
+  .titles{
+    font-size: 20px;
+    font-weight: 500;
+    text-align: center;
   }
 }
 </style>

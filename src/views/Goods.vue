@@ -57,6 +57,7 @@ import Mymixins from "../mixin/Mymixins";
 export default {
   mixins: [Mymixins],
   created() {
+    
     this.getNoticeDate();
   },
   data() {

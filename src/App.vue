@@ -33,7 +33,7 @@
         <van-tabbar-item icon="shopping-cart-o" :badge="cartListNum" size="25" to="/cart"
           >购物车</van-tabbar-item
         >
-        <van-tabbar-item icon="contact" size="40">个人中心</van-tabbar-item>
+        <van-tabbar-item icon="contact" size="40" to="/login">个人中心</van-tabbar-item>
       </van-tabbar>
     </div>
   </div>

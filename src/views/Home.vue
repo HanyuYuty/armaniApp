@@ -18,7 +18,7 @@
       </van-swipe-item>
     </van-swipe>
     <!-- 明星商品 -->
-    <h1>明星产品</h1>
+    <h1 class="titles">明星产品</h1>
     <van-tabs v-model="active" @click="checkCatename">
       <van-tab
         :title="item.catename"
@@ -56,19 +56,19 @@
                 readonly
               />
               <div class="goods-price">￥{{ item.defaultPrice }}</div>
-              <van-button type="primary" block color="black" size="small" class="home_button"
+              <van-button type="primary" block color="black" size="small" class="home_button" @click="gotoDetails(item.productCode)"
                 >立即购买</van-button
               >
             </swiper-slide>
             <!-- 如果需要导航按钮 -->
-            <div class="swiper-button-prev" slot="button-prev"></div>
-            <div class="swiper-button-next" slot="button-next"></div>
+            <!-- <div class="swiper-button-prev" slot="button-prev"></div>
+            <div class="swiper-button-next" slot="button-next"></div> -->
           </swiper>
         </template>
       </van-tab>
     </van-tabs>
     <!-- 官网尊享 -->
-    <h1>官网尊享</h1>
+    <h1 class="titles">官网尊享</h1>
     <div class="images-box">
       <van-image
         width="23rem"
@@ -87,7 +87,7 @@
         v-for="item in buttomBanner"
         :key="item.uuid"
         :code="item.linkData.code"
-        @click="getCode"
+        @click="getCode(item.productCode)"
       >
         <template #default>
           <van-image fit="cover" :src="item.imageUrlMobile" lazy-load />
@@ -132,8 +132,14 @@ export default {
     this.getTopBanner();
   },
   methods: {
-    getCode(e) {
-      console.log("e", e);
+    getCode(productCode) {
+        //跳转到商品详情页
+      this.$router.push({
+        name: "details",
+        params: {
+          productCode,
+        },
+      });
     },
     //获取会员尊享的code
     getImageCode(e) {
@@ -177,6 +183,14 @@ export default {
           this.hotGoodsInfomation = data.data;
         });
     },
+    gotoDetails(productCode){
+       this.$router.push({
+        name: "details",
+        params: {
+          productCode,
+        },
+      });
+    }
   },
   computed: {
     swiper() {
@@ -266,4 +280,9 @@ export default {
 .van-swipe__indicator {
   background: rgb(126, 126, 126);
 }
+ .titles{
+    font-size: 20px;
+    font-weight: 500;
+    text-align: center;
+  }
 </style>

@@ -64,7 +64,10 @@ export default {
   methods: {
     //滚动加载
     onLoad() {
-      this.getGoodsList();
+      setTimeout(()=>{
+        this.getGoodsList();
+    },100)
+    
     },
     //商品列表
     async getGoodsList() {

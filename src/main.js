@@ -49,10 +49,18 @@ import {
   DropdownMenu, DropdownItem,
   Toast,
   Form,
-  Field
+  Field,
+  DatetimePicker,
+  Notify
 } from 'vant';
 
 
+
+// 全局注册
+Vue.use(Notify);
+
+
+Vue.use(DatetimePicker);
 Vue.use(Form);
 Vue.use(Field);
 Vue.use(Toast);
@@ -106,7 +114,43 @@ import request, {
 Vue.prototype.$host = host;
 Vue.prototype.$request = request;
 
+//设置全局路由守卫，从而达到页面权限
+router.beforeEach(function(to,from,next){
+  
+  // 确定是否有登录
+  if(to.matched.some(item=>item.meta.reqiuredAuth)){
 
+    if(store.getters.isLogin){
+      next();
+      //检验token是否有被篡改。
+      router.app.$request.get('/users/verify').then(({data})=>{
+        //做token验证不通过处理
+        if(data.code===400){
+          router.push('/login',{
+            query:{
+              targetUrl:to.fullPath
+            }
+          })
+
+        }
+      })
+      
+    }else{
+      router.push('/login',{
+        query:{
+          targetUrl:to.fullPath
+        }
+      })
+
+    }
+
+
+
+  }else{
+
+    next()
+  }
+})
 
 
 

@@ -59,8 +59,6 @@ export default {
 
     },
     actions: {
-        getGoodsImg(context, payload) {
-
-        }
+      
     }
 }

@@ -9,8 +9,7 @@ import categoryRoutes from "../router/categoryRoutes";
 
 Vue.use(VueRouter)
 
-const routes = [
-  {
+const routes = [{
     path: '/home',
     name: 'home',
     component: Home,
@@ -29,23 +28,26 @@ const routes = [
     path: '/cart',
     name: 'catr',
     component: () => import('../views/Cart.vue'),
-    children:[{
-      path:'/',
-      name:'incart',
-      component:()=>import("../views/Cart/Incart.vue")
-    },{
-      path:'checkout/:price',
-      name:'checkout',
-      component:()=>import("../views/Cart/Checkout.vue")
+    children: [{
+      path: '/',
+      name: 'incart',
+      component: () => import("../views/Cart/Incart.vue")
+    }, {
+      path: 'checkout/:price',
+      name: 'checkout',
+      meta: {
+        reqiuredAuth: true
+      },
+      component: () => import("../views/Cart/Checkout.vue")
     }]
-  },{
-    path:"/login",
-    name:'login',
-    component:()=>import("../views/Login.vue")
-  },{
-    path:"/register",
-    name:'register',
-    component:()=>import("../views/Register.vue")
+  }, {
+    path: "/login",
+    name: 'login',
+    component: () => import("../views/Login.vue")
+  }, {
+    path: "/register",
+    name: 'register',
+    component: () => import("../views/Register.vue")
   },
   {
     path: '*',
